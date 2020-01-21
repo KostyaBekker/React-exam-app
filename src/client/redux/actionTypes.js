@@ -1,0 +1,10 @@
+export const LOGIN = 'LOGIN';
+export const LOGOUT = 'LOGOUT';
+export const ADDUSER = 'ADDUSER';
+export const EDITUSER = 'EDITUSER';
+export const LISTUSERS = 'LISTUSERS';
+export const DELETEUSER = 'DELETEUSER';
+export const ADDQUESTION = 'ADDQUESTION';
+export const LISTQUESTION = 'LISTQUESTION';
+export const EDITQUESTION = 'EDITQUESTION';
+export const DELETEQUESTION = 'DELETEQUESTION';
