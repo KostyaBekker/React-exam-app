@@ -7,9 +7,9 @@ const outputDirectory = 'dist';
 module.exports = {
   entry: ['babel-polyfill', './src/client/index.js'],
   output: {
-    path: path.resolve(__dirname, 'build'),
-    publicPath: 'build',
-    filename: 'bundle-main.js'
+    publicPath: '/',
+    path: path.join(__dirname, outputDirectory),
+    filename: 'bundle.js'
   },
   module: {
     rules: [{
@@ -33,9 +33,7 @@ module.exports = {
     extensions: ['*', '.js', '.jsx']
   },
   devServer: {
-    historyApiFallback: {
-      index: 'build/index.html'
-    },
+    historyApiFallback: true,
     port: 3000,
     open: true,
     proxy: {
@@ -45,7 +43,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin([outputDirectory]),
     new HtmlWebpackPlugin({
-      template: './build/index.html',
+      template: './public/index.html',
     })
   ]
 };
