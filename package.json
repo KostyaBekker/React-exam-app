@@ -7,7 +7,7 @@
     "node": "12.6.0"
   },
   "scripts": {
-    "build": "webpack --mode production",
+    "build": "webpack-dev-server --mode production",
     "start": "npm run server",
     "client": "webpack-dev-server --mode development --devtool inline-source-map --hot",
     "server": "nodemon src/server/index.js",
