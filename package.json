@@ -8,9 +8,7 @@
   },
   "scripts": {
     "build": "webpack --mode production",
-    "start": "src/server/index.js",
-    
-   
+    "start": "src/server/index.js" 
   },
   "author": "Kostya Bekker",
   "license": "ISC",
