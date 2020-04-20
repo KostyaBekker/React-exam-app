@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Form, Button, Table } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addQuestion } from '../../../redux/actions';
+import { addQuestion } from '../../../redux/actionsAdmin';
+import { editQuestion } from '../../../redux/actionsAdmin';
 import '../../../app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class AddQuestion extends Component {
+class AddEditQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +21,25 @@ class AddQuestion extends Component {
       inputAnswer4: '',
       inputAnswerValue: '',
       inputAnswers: []
+    };
+  }
+
+  componentWillMount = () => {
+    if (this.props.questionChange == 'editQuestion') {
+      return (
+        this.setState({
+          inputType: this.props.question.type,
+          inputQuestion: this.props.question.question,
+          inputSection: this.props.question.section,
+          inputGroup: this.props.question.group,
+          inputAnswer1: this.props.question.answers[0].text,
+          inputAnswer2: this.props.question.answers[1].text,
+          inputAnswer3: this.props.question.answers[2].text,
+          inputAnswer4: this.props.question.answers[3].text,
+          inputAnswerValue: this.props.question.answers.findIndex(item => item.correct === true),
+          inputAnswers: []
+        })
+      );
     };
   }
 
@@ -115,18 +135,21 @@ class AddQuestion extends Component {
             label="A"
             name="inputSportG"
             id="A"
+            defaultChecked={inputGroup === 'A'}
           />
           <Form.Check
             type="radio"
             label="B"
             name="inputSportG"
             id="B"
+            defaultChecked={inputGroup === 'B'}
           />
           <Form.Check
             type="radio"
             label="C"
             name="inputSportG"
             id="C"
+            defaultChecked={inputGroup === 'C'}
           />
         </Form.Group>
       );
@@ -145,12 +168,14 @@ class AddQuestion extends Component {
             label="A"
             name="TraditionalG"
             id="A"
+            defaultChecked={inputGroup === 'A'}
           />
           <Form.Check
             type="radio"
             label="B"
             name="TraditionalG"
             id="B"
+            defaultChecked={inputGroup === 'B'}
           />
         </Form.Group>
       );
@@ -169,24 +194,28 @@ class AddQuestion extends Component {
             label="SangDa"
             name="inputSyanshowG"
             id="SangDa"
+            defaultChecked={inputGroup === 'SangDa'}
           />
           <Form.Check
             type="radio"
             label="XingDa"
             name="inputSyanshowG"
             id="XingDa"
+            defaultChecked={inputGroup === 'XingDa'}
           />
           <Form.Check
             type="radio"
             label="TuiShow"
             name="inputSyanshowG"
             id="TuiShow"
+            defaultChecked={inputGroup === 'TuiShow'}
           />
           <Form.Check
             type="radio"
             label="VingChung"
             name="inputSyanshowG"
             id="VingChung"
+            defaultChecked={inputGroup === 'VingChung'}
           />
         </Form.Group>
       );
@@ -206,6 +235,41 @@ class AddQuestion extends Component {
     }
     valid.classList.add('isValidStyle');
     return false;
+  }
+
+  typePageName = () => {
+    if (this.props.questionChange == 'editQuestion') {
+      return (<h2><b>Edit Question</b></h2>);
+    }
+    return (<h2><b>Add Question</b></h2>);
+  }
+
+  typeButton = (
+    inputType,
+    inputQuestion,
+    inputSection,
+    inputGroup,
+    inputAnswers
+  ) => {
+    if (this.props.questionChange == 'editQuestion') {
+      return (
+        <Button onClick={() => this.editQuestion()}>
+        edit
+        </Button>
+      );
+    }
+    return (
+      <Button onClick={() => this.addQuestion(
+        inputType,
+        inputQuestion,
+        inputSection,
+        inputGroup,
+        inputAnswers
+      )}
+      >
+      add to list
+      </Button>
+    );
   }
 
   addQuestion = (inputType, inputQuestion, inputSection, inputGroup) => {
@@ -240,6 +304,41 @@ class AddQuestion extends Component {
     }
   };
 
+  editQuestion = () => {
+    const { inputType, inputQuestion, inputSection, inputGroup } = this.state;
+    const { inputAnswer1, inputAnswer2, inputAnswer3, inputAnswer4, inputAnswerValue } = this.state;
+    const inputAnswers = [
+      {
+        text: inputAnswer1,
+        correct: inputAnswerValue === 'true1',
+      },
+      {
+        text: inputAnswer2,
+        correct: inputAnswerValue === 'true2',
+      },
+      {
+        text: inputAnswer3,
+        correct: inputAnswerValue === 'true3',
+      },
+      {
+        text: inputAnswer4,
+        correct: inputAnswerValue === 'true4',
+      }
+    ];
+    const valueIdQuestion = this.props.question.idQuestion;
+    if (this.isValid()) {
+      this.props.editQuestion(
+        inputType,
+        inputQuestion,
+        inputSection,
+        inputGroup,
+        inputAnswers,
+        valueIdQuestion
+      );
+      this.props.onClose();
+    }
+  };
+
   render() {
     const {
       inputType,
@@ -256,7 +355,9 @@ class AddQuestion extends Component {
 
     return (
       <div>
-        <h2><b>Add Question</b></h2>
+        {
+          this.typePageName()
+        }
         <Form>
           <Form.Group
             onChange={e => this.updateType(e.target.id)}
@@ -277,14 +378,16 @@ class AddQuestion extends Component {
               label="photo"
               name="Type"
               id="photo"
+              defaultChecked={inputType === 'photo'}
             />
             <Form.Check
               type="radio"
               label="video"
               name="Type"
               id="video"
+              defaultChecked={inputType === 'video'}
             />
-          </Form.Group>
+            </Form.Group>
           {
             this.renderType(inputType, inputQuestion)
           }
@@ -302,18 +405,21 @@ class AddQuestion extends Component {
               label="sport"
               name="Section"
               id="sport"
+              defaultChecked={inputSection === 'sport'}
             />
             <Form.Check
               type="radio"
               label="traditional"
               name="Section"
               id="traditional"
+              defaultChecked={inputSection === 'traditional'}
             />
             <Form.Check
               type="radio"
               label="syanshow"
               name="Section"
               id="syanshow"
+              defaultChecked={inputSection === 'syanshow'}
             />
           </Form.Group>
           {
@@ -347,6 +453,7 @@ class AddQuestion extends Component {
                       type="radio"
                       name="Answer"
                       id="true1"
+                      defaultChecked={inputAnswerValue === 0}
                     />
                   </td>
                 </tr>
@@ -364,6 +471,7 @@ class AddQuestion extends Component {
                       type="radio"
                       name="Answer"
                       id="true2"
+                      defaultChecked={inputAnswerValue === 1}
                     />
                   </td>
                 </tr>
@@ -381,6 +489,7 @@ class AddQuestion extends Component {
                       type="radio"
                       name="Answer"
                       id="true3"
+                      defaultChecked={inputAnswerValue === 2}
                     />
                   </td>
                 </tr>
@@ -398,6 +507,7 @@ class AddQuestion extends Component {
                       type="radio"
                       name="Answer"
                       id="true4"
+                      defaultChecked={inputAnswerValue === 3}
                     />
                   </td>
                 </tr>
@@ -405,16 +515,20 @@ class AddQuestion extends Component {
             </Table>
           </Form.Group>
         </Form>
-        <Button onClick={() => this.addQuestion(
-          inputType,
-          inputQuestion,
-          inputSection,
-          inputGroup,
-          inputAnswers
-        )}
-        >
-        add to list
-        </Button>
+        {
+          this.typeButton(
+            inputType,
+            inputQuestion,
+            inputSection,
+            inputGroup,
+            inputAnswer1,
+            inputAnswer2,
+            inputAnswer3,
+            inputAnswer4,
+            inputAnswerValue,
+            inputAnswers
+          )
+        }
       </div>
     );
   }
@@ -422,5 +536,5 @@ class AddQuestion extends Component {
 
 export default connect(
   null,
-  { addQuestion }
-)(AddQuestion);
+  { addQuestion, editQuestion }
+)(AddEditQuestion);

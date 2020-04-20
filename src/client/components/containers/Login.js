@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import {BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login } from '../../redux/actions';
+import { login } from '../../redux/actionsAdmin';
 import '../../app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 

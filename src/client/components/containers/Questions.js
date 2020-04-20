@@ -2,9 +2,8 @@ import React, { Component } from 'react';
 import { Table, Button } from 'react-bootstrap';
 import Modal from 'react-modal';
 import { connect } from 'react-redux';
-import AddQuestion from './modalPage/AddQuestion';
-import EditQuestion from './modalPage/EditQuestion';
-import { deleteQuestion } from '../../redux/actions';
+import AddEditQuestion from './modalPage/AddEditQuestion';
+import { deleteQuestion } from '../../redux/actionsAdmin';
 import '../../app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -65,9 +64,9 @@ class Questions extends Component {
             <h2 ref={subtitle => this.subtitle = subtitle}> </h2>
             {this.state.modalIsType === 'newQuestion'
               ?
-                <AddQuestion onClose={this.closeModal} />
+                <AddEditQuestion onClose={this.closeModal} questionChange={'addQuestion'}/>
               :
-                <EditQuestion question={this.state.question} onClose={this.closeModal} />
+                <AddEditQuestion question={this.state.question} onClose={this.closeModal} questionChange={'editQuestion'}/>
             }
             <Button style={{ margin: '15px 0' }} onClick={this.closeModal}>cancel</Button>
           </Modal>

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import {BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { Form, Button, Navbar, Nav } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { logout } from '../../redux/actions';
+import { logout } from '../../redux/actionsAdmin';
 import '../../app.css';
 
 // Using "Stateless Functional Components"
@@ -20,7 +20,7 @@ class Header extends PureComponent {
         <nav>
           <Navbar bg="primary" variant="dark" className="header">
             <Nav className="mr-auto">
-              <Link to="/exams"><Button variant="outline-light">Exams</Button></Link>
+              <Link to="/myexam"><Button variant="outline-light">Exam</Button></Link>
             </Nav>
             <Form inline>
               <span className="user">{user.name}</span>
@@ -36,7 +36,7 @@ class Header extends PureComponent {
         <nav>
           <Navbar bg="primary" variant="dark" className="header">
             <Nav className="mr-auto">
-              <Link to="/exams"><Button variant="outline-light">Exams</Button></Link>
+              <Link to="/exam"><Button variant="outline-light">Exam</Button></Link>
               <Link to="/questions"><Button variant="outline-light">Questions</Button></Link>
               <Link to="/users"><Button variant="outline-light">Users</Button></Link>
             </Nav>

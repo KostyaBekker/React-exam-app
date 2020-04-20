@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { addUser } from '../../../redux/actions';
+import { addUser } from '../../../redux/actionsAdmin';
+import { editUser } from '../../../redux/actionsAdmin';
 import '../../../app.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // eslint-disable-next-line react/prefer-stateless-function
-class AddUser extends Component {
+class AddEditUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -15,6 +16,26 @@ class AddUser extends Component {
       inputRole: '',
       inputPassword: ''
     };
+  }
+
+  componentWillMount = () => {
+    if (this.props.userChange == 'editUser') {
+      return (
+        this.setState({ 
+          inputEmail: this.props.user.valueEmail,
+          inputName: this.props.user.valueName,
+          inputRole: this.props.user.valueRole,
+          inputPassword: this.props.user.valuePassword
+        })
+      );
+    };
+  }
+
+  typePageName = () => {
+    if (this.props.userChange == 'editUser') {
+      return (<h2><b>Edit Exam</b></h2>);
+    }
+    return (<h2><b>Add Exam</b></h2>);
   }
 
   updateEmail = (inputEmail) => {
@@ -38,6 +59,13 @@ class AddUser extends Component {
     this.props.onClose();
   };
 
+  editUser = () => {
+    const { inputEmail, inputName, inputRole, inputPassword } = this.state;
+    const valueId = this.props.user.valueId;
+    this.props.editUser(inputEmail, inputName, inputRole, inputPassword, valueId);
+    this.props.onClose();
+  };
+
   setRandomPassword = () => {
     let result = '';
     const simbol = '0123456789qwertyuiopasdfghjklzxcvbnm';
@@ -49,6 +77,21 @@ class AddUser extends Component {
     this.setState({ inputPassword: result });
   };
 
+  typeButton = (inputEmail, inputName, inputRole, inputPassword) => {
+    if (this.props.userChange == 'editUser') {
+      return (
+        <Button onClick={() => this.editUser()}>
+        edit
+        </Button>
+      );
+    }
+    return (
+      <Button onClick={() => this.addUser(inputEmail, inputName, inputRole, inputPassword)}>
+      add to list
+      </Button>
+    );
+  }
+
   render() {
     const {
       inputEmail,
@@ -58,7 +101,9 @@ class AddUser extends Component {
     } = this.state;
     return (
       <div>
-        <h2><b>Add Users</b></h2>
+        {
+          this.typePageName()
+        }
         <Form>
           <Form.Group>
             <Form.Label>Email address</Form.Label>
@@ -91,12 +136,14 @@ class AddUser extends Component {
                 label="user"
                 name="formHorizontalRadios"
                 id="user"
+                defaultChecked={inputRole === 'user'}
               />
               <Form.Check
                 type="radio"
                 label="admin"
                 name="formHorizontalRadios"
                 id="admin"
+                defaultChecked={inputRole === 'admin'}
               />
             </Col>
           </Form.Group>
@@ -110,9 +157,9 @@ class AddUser extends Component {
             />
           </Form.Group>
         </Form>
-        <Button onClick={() => this.addUser(inputEmail, inputName, inputRole, inputPassword)}>
-          add to list
-        </Button>
+        {
+          this.typeButton(inputEmail, inputName, inputRole, inputPassword)
+        }
         <Button style={{ margin: '0 15px' }} onClick={() => this.setRandomPassword()}>
           password
         </Button>
@@ -123,5 +170,5 @@ class AddUser extends Component {
 
 export default connect(
   null,
-  { addUser }
-)(AddUser);
+  { addUser, editUser }
+)(AddEditUser);

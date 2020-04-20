@@ -10,7 +10,10 @@ import Header from './components/layouts/Header';
 
 // Pages
 import Login from './components/containers/Login';
-// import Exams from './components/containers/Exams';
+import MyExam from './components/containers/MyExam';
+import PassExam from './components/containers/PassExam';
+import Exams from './components/containers/Exams';
+import InfoExam from './components/containers/InfoExam';
 import Questions from './components/containers/Questions';
 import Users from './components/containers/Users';
 import Blanksheet from './components/containers/Blanksheet';
@@ -26,9 +29,18 @@ export default class App extends Component {
             <Route path="/login">
               <Login />
             </Route>
-            {/* <Route path="/exams">
+            <Route path="/myexam">
+              <MyExam />
+            </Route>
+            <Route path="/passexam">
+              <PassExam />
+            </Route>
+            <Route path="/exam">
               <Exams />
-            </Route> */}
+            </Route>
+            <Route path="/infoExam">
+              <InfoExam />
+            </Route>
             <Route path="/questions">
               <Questions />
             </Route>

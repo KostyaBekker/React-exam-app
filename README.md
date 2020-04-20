@@ -1,14 +1,20 @@
 
 # TODO:
-<!-- 1) Add column Actions for Users -->
-<!-- 2) Move Edit to Actions -->
-<!-- 3) Add Dlete button -->
-<!-- 4) Empty password for new user -->
-<!-- 5) Add Generate Password button -->
-<!-- 6) Close rename to Cancel -->
-<!-- 7) Add 'Users' title and move Add to the right -->
-8) Add 'DElete' to questions
-9) 
+
+{
+  "title":"New ",
+  "date": "",
+  "questionsNumber":200,
+  "sport": {
+    "a":60,
+    "b":60,
+    "c":60,
+  },
+  "tradition": {
+    "a":30,
+    "b":30
+  }
+};
 ВОПРОС
 тип:
  - текст
